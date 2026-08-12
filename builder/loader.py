@@ -2,6 +2,7 @@ import certifi
 import dateutil.parser
 import re
 import json
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -39,10 +40,16 @@ def load_ranges(doc_id, ranges):
     url = '%s/%s/values:batchGet?%s&key=%s' % (SHEETS_URL_BASE, doc_id, params, config.API_KEY)
 
     req = urllib.request.Request(url)
-    with urllib.request.urlopen(req, cafile=certifi.where()) as response:
-        data = response.read()
+    try:
+        with urllib.request.urlopen(req, cafile=certifi.where()) as response:
+            data = response.read()
+    except urllib.error.HTTPError as e:
+        # The API explains what went wrong in the response body, which HTTPError hides.
+        raise RuntimeError('Sheets API %s for document %s: %s' % (
+            e.code, doc_id, e.read().decode('utf-8', 'replace'))) from None
     data_dict = json.loads(data)
-    return [r['values'] for r in data_dict['valueRanges']]
+    # An empty tab comes back without a 'values' key at all.
+    return [r.get('values', []) for r in data_dict['valueRanges']]
 
 def row_to_dict(row, keys, start_at=0):
     i = start_at
