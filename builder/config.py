@@ -6,7 +6,9 @@ BUILD_PATH = os.path.join(BASE_PATH, 'docs')
 def get_secret(name):
     # GitHub Actions exposes action inputs as INPUT_*, so check that first and
     # fall back to a plain environment variable for local builds.
-    value = os.getenv('INPUT_%s' % name, '') or os.getenv(name, '')
+    # Secrets pasted into the GitHub UI often keep a trailing newline, which
+    # would end up inside the request URL.
+    value = (os.getenv('INPUT_%s' % name, '') or os.getenv(name, '')).strip()
     if not value:
         raise RuntimeError(
             '%s is not set. Add it as a repository secret under '
