@@ -22,6 +22,7 @@ jobs:
         uses: ./action-build
         with:
           API_KEY: ${{ secrets.API_KEY }}
+          DATA_URL: ${{ secrets.DATA_URL }}
 
       - name: Commit changed files
         run: |

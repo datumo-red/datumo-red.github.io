@@ -1,55 +1,55 @@
-# Research Group Static Website
+# Selectstar Safety Research Team Website
 
-This is a static website for a research group, hosted as GitHub Pages. 
+The static website for the Selectstar Safety Research Team, hosted as GitHub Pages.
 
-This website is designed to update its contents every 30 minutes based on [a Google Sheets document](https://docs.google.com/spreadsheets/d/1EDLlUuY2Ia5MKNbCTOftxxSxBaK3C9pRFOIUvMY30eY/edit?usp=sharing) with scheduled GitHub Actions jobs.
+The site contents live in a private Google Sheets document rather than in this repository. A scheduled GitHub Actions job reads that document every 30 minutes, rebuilds the site into the *[docs](docs)* folder, and commits the result.
 
 ## How does this website work?
 
-This project is designed to update its website contents in *[docs](docs)* folder every 30 minutes with scheduled GitHub Actions jobs defined in this [file](.github/workflows/builder.yml). The website contents also get updated when you push something into the website. 
+The build is defined in *[.github/workflows/builder.yml](.github/workflows/builder.yml)*. It runs every 30 minutes and on every push to *master*.
 
-**Do NOT directly modify the contents in *[docs](docs)* folder**, since the contents of that folder gets auto-updated every 30 minutes.
+**Do NOT edit anything inside the *[docs](docs)* folder.** That folder is deleted and regenerated on every build, so changes made there are lost on the next run. Edit the Google Sheets document instead — or the templates in *[builder/templates](builder/templates)* for layout changes.
 
-## How to upload static files to this website
+## Configuration
 
-If you need to upload image files or any other static files to use in the website to this repository, please put your files in *[assets](assets)* folder. All files in the folder will be copied to *[docs/assets](docs/assets)* when other website contents get updated. 
+Both values are read from repository secrets (Settings → Secrets and variables → Actions) and are passed to the builder as action inputs. Neither is stored in this repository.
 
-## How to create your own website from this
+| Secret | Description |
+| --- | --- |
+| `API_KEY` | Google API key with the Google Sheets API enabled. |
+| `DATA_URL` | URL of the Google Sheets document holding the site contents. |
 
-1. Fork this repository to your account.
+The Sheets API is accessed with an API key, which only works on documents shared as *Anyone with the link – Viewer*. Keeping `DATA_URL` in a secret keeps the document from being advertised on the site; it is not an access control. Do not put anything in the document that must stay private.
 
-1. Configure the repository to publish a GitHub Pages site from a *docs* folder onh the *master* branch. Read [this document](https://docs.github.com/en/enterprise/2.14/user/articles/configuring-a-publishing-source-for-github-pages#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch) if you need help.
+### Building locally
 
-1. Configure a custom domain for your website if you need to. Read [this document](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site) if you need help.
+```sh
+pip install -r requirements.txt
+API_KEY=<your-key> DATA_URL=<your-sheet-url> python3 build.py
+```
 
-1. Create a new Google Sheets document to store your website contents. Set `DATA_URL` value in the file *[builder/config.py](builder/config.py)*. Follow the instructions below for this.
+The build fails immediately with a readable message if either value is missing.
 
-1. Get a valid Google API key to use when downloading the website contents. Set the key as a encrypted secret `API_KEY`. Follow the instructions below for this.
+## Data source layout
 
-1. Voilà! You have 
+The builder expects these tabs, and reads the ranges listed in *[builder/loader.py](builder/loader.py)*:
 
-### Create a data source document
+`Website` `Announcements` `Members` `Research` `Tags` `Links` `Pages` `Redirects` `Personal`
 
-This project automatically downloads contents for the website from a Google Sheets document. Set URL of your document as a value for `DATA_URL` in the file *[builder/config.py](builder/config.py)*. 
+A tab that is missing entirely makes the whole request fail with a 400; an empty tab is fine.
 
-An example document is available at [here](https://docs.google.com/spreadsheets/d/1EDLlUuY2Ia5MKNbCTOftxxSxBaK3C9pRFOIUvMY30eY/edit?usp=sharing).
+The `Members` tab groups people by column A, so rows sharing a value in column A are rendered as one section:
 
-To create your own document, follow the instructions below. 
+| A | B | C | D | E | F | G | H |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Section title | Name | Email | Image | Description | Links | Degree | Year |
 
-1. Use [this link](https://docs.google.com/spreadsheets/d/1EDLlUuY2Ia5MKNbCTOftxxSxBaK3C9pRFOIUvMY30eY/copy#gid=1676718498) to make a copy of the example Sheets document. 
+Rows with a value in `Year` are rendered as alumni.
 
-1. Set your document's sharing settings as: *Public on the web - Anyone on the Internet can find and view*. Read [this document](https://support.google.com/docs/answer/183965?co=GENIE.Platform%3DDesktop&hl=en) if you need help.
+## Static files
 
-1. Copy the URL of your document and paste in the file *[builder/config.py](builder/config.py)* as a value of `DATA_URL`.
-
-### Get a Google API Key
-
-The website builder in this project needs a valid Google API key to download website contents from the Google Sheets document. Add the key to the repository as a *encrypted secret* value `API_KEY`.
-
-1. Get an API key from [Google Developers Console](https://console.developers.google.com/). Read [this answer](https://stackoverflow.com/questions/46583052/http-google-sheets-api-v4-how-to-access-without-oauth-2-0/46583300#46583300) from a question in Stack Overflow to see how to create an API key and enable its use for Google Sheets APIs.
-
-1. Set your API key as a secret value `API_KEY`. Read [this doucment](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to see how to add encrypted secrets for a GitHub repository.
+Put images and other static files in the *[assets](assets)* folder. Everything in it is copied to *docs/assets* on each build, so reference them from the sheet as site-root paths such as `/assets/images/members/name.png`.
 
 ## Acknowledgements
 
-This work was supported and funded by [JinYeong Bak](https://github.com/nosyu).
+Built on [research-group-static-web](https://github.com/jmbyun/research-group-static-web) by Jeongmin Byun, used under the MIT License. The original work was supported and funded by [JinYeong Bak](https://github.com/nosyu).
