@@ -5,6 +5,10 @@ on:
       - master
   schedule:
     - cron: "0/30 * * * *"
+  # Lets a sheet-only change be published without waiting for the schedule.
+  # Re-running a past run is not a substitute: it checks out that run's commit,
+  # so its push is rejected once master has moved on.
+  workflow_dispatch:
 
 jobs:
   build:
