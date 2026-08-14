@@ -28,16 +28,12 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add docs/\*
-          set +e
-          git status | grep modified
-          if [ $? -eq 0 ]
+          git add docs assets
+          if git diff --cached --quiet
           then
-              set -e
-              git commit -am "build the website with the latest source data - $(date)"
-          else
-              set -e
               echo "No changes since last run"
+          else
+              git commit -m "build the website with the latest source data - $(date)"
           fi
 
       - name: Push changes

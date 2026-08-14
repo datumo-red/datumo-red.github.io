@@ -2,6 +2,10 @@ import os
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD_PATH = os.path.join(BASE_PATH, 'docs')
+# News thumbnails are cached here rather than under docs/, which is wiped on
+# every build. copy_assets() publishes them to docs/assets/news.
+NEWS_IMAGE_PATH = os.path.join(BASE_PATH, 'assets', 'news')
+NEWS_IMAGE_URL_BASE = '/assets/news'
 
 def get_secret(name):
     # GitHub Actions exposes action inputs as INPUT_*, so check that first and

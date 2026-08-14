@@ -198,11 +198,19 @@ def conv_news(table):
         # in everything needs no request at all.
         filled_in = all(item[key].strip() for key in ('title', 'description', 'image'))
         preview = {} if filled_in else (opengraph.get_preview(url) or {})
+        image = item['image'].strip() or preview.get('image') or ''
+        if image.startswith('http'):
+            # Keep a copy so the card survives the publisher moving the file.
+            # A thumbnail we could not fetch is dropped rather than linked, so
+            # the template falls back to the default image instead of rendering
+            # a broken one.
+            image = opengraph.download_image(
+                image, config.NEWS_IMAGE_PATH, config.NEWS_IMAGE_URL_BASE) or ''
         items.append({
             'url': url,
             'title': item['title'].strip() or preview.get('title') or url,
             'description': item['description'].strip() or preview.get('description') or '',
-            'image': item['image'].strip() or preview.get('image') or '',
+            'image': image,
             'source': preview.get('site_name') or urllib.parse.urlparse(url).netloc,
             'date': item['date'].strip(),
         })

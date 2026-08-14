@@ -1,4 +1,7 @@
 import certifi
+import glob
+import hashlib
+import os
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -11,6 +14,15 @@ USER_AGENT = (
 TIMEOUT = 15
 # Open Graph tags live in <head>, so there is no reason to read whole pages.
 MAX_BYTES = 512 * 1024
+MAX_IMAGE_BYTES = 8 * 1024 * 1024
+IMAGE_EXTENSIONS = {
+    'image/jpeg': '.jpg',
+    'image/jpg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp',
+    'image/avif': '.avif',
+}
 
 class MetaParser(HTMLParser):
     def __init__(self):
@@ -37,6 +49,42 @@ class MetaParser(HTMLParser):
     def handle_data(self, data):
         if self._in_title and not self.title:
             self.title = data.strip()
+
+def download_image(image_url, directory, url_base):
+    """Cache a remote thumbnail next to the other assets.
+
+    Returns the site-relative path to the cached copy, or None if it could not
+    be fetched. The file name is derived from the image URL, so an image that
+    is already on disk is never downloaded again.
+    """
+    name = hashlib.sha1(image_url.encode('utf-8')).hexdigest()[:16]
+    existing = glob.glob(os.path.join(directory, name + '.*'))
+    if existing:
+        return '%s/%s' % (url_base, os.path.basename(existing[0]))
+
+    request = urllib.request.Request(image_url, headers={'User-Agent': USER_AGENT})
+    try:
+        with urllib.request.urlopen(request, timeout=TIMEOUT, cafile=certifi.where()) as response:
+            content_type = (response.headers.get_content_type() or '').lower()
+            if content_type not in IMAGE_EXTENSIONS:
+                print('  ! %s is not an image (%s)' % (image_url, content_type or 'unknown'))
+                return None
+            body = response.read(MAX_IMAGE_BYTES + 1)
+    except (urllib.error.URLError, OSError, ValueError) as e:
+        print('  ! could not download %s: %s' % (image_url, e))
+        return None
+
+    if len(body) > MAX_IMAGE_BYTES:
+        print('  ! %s is larger than %d bytes, skipping' % (image_url, MAX_IMAGE_BYTES))
+        return None
+
+    filename = name + IMAGE_EXTENSIONS[content_type]
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(os.path.join(directory, filename), 'wb') as f:
+        f.write(body)
+    print('  + cached thumbnail %s' % filename)
+    return '%s/%s' % (url_base, filename)
 
 def get_preview(url):
     """Read Open Graph metadata for a link.
