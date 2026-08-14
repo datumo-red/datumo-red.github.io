@@ -36,7 +36,7 @@ The builder expects these tabs, and reads the ranges listed in *[builder/loader.
 
 `Website` `Announcements` `Members` `Research` `Tags` `Links` `Pages` `Redirects` `Personal`
 
-A tab that is missing entirely makes the whole request fail with a 400; an empty tab is fine.
+A tab that is missing entirely makes the whole request fail with a 400; an empty tab is fine. The optional `News` tab is described below.
 
 The `Members` tab groups people by column A, so rows sharing a value in column A are rendered as one section:
 
@@ -45,6 +45,18 @@ The `Members` tab groups people by column A, so rows sharing a value in column A
 | Section title | Name | Email | Image | Description | Links | Degree | Year |
 
 Rows with a value in `Year` are rendered as alumni.
+
+### News
+
+The `News` tab is optional and is fetched separately, so the site still builds without it. Only column A is required — the build opens each link and reads its [Open Graph](https://ogp.me/) tags for the rest:
+
+| A | B | C | D | E |
+| --- | --- | --- | --- | --- |
+| URL | Title | Description | Image | Date |
+
+Anything filled in from B to E overrides what the linked page reports, which is how you fix a link that has no preview or a bad one. A row with B, C and D all filled in is never fetched. Links that cannot be read fall back to the URL as the title and to a default thumbnail; the build logs each one and keeps going.
+
+Thumbnails are hotlinked from the source, so they follow whatever the publisher does with them. Set `news_default_image` on the `Website` tab to choose the fallback image, and `news_background` for the page header. The `News` menu item only appears when the tab has at least one row.
 
 ## Static files
 

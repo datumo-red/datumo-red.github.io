@@ -6,7 +6,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
-from . import config
+from . import config, opengraph
 
 SHEETS_URL_BASE = 'https://sheets.googleapis.com/v4/spreadsheets'
 RANGES = [
@@ -23,6 +23,11 @@ RANGES = [
 PERSONAL_RANGES = [
     'Website!B2:C',
     'Contents!A2:B',
+]
+# Fetched on its own so that a document without a News tab still builds: one
+# unknown range makes the whole batch request fail with a 400.
+NEWS_RANGES = [
+    'News!A2:E',
 ]
 
 def get_doc_id(data_url):
@@ -50,6 +55,13 @@ def load_ranges(doc_id, ranges):
     data_dict = json.loads(data)
     # An empty tab comes back without a 'values' key at all.
     return [r.get('values', []) for r in data_dict['valueRanges']]
+
+def load_optional_ranges(doc_id, ranges):
+    try:
+        return load_ranges(doc_id, ranges)
+    except RuntimeError as e:
+        print('Skipping optional ranges %s: %s' % (', '.join(ranges), e))
+        return None
 
 def row_to_dict(row, keys, start_at=0):
     i = start_at
@@ -174,6 +186,34 @@ def load_personal(table):
 
     return websites
 
+def conv_news(table):
+    items = []
+    for row in table:
+        item = row_to_dict(row, ['url', 'title', 'description', 'image', 'date'])
+        url = item['url'].strip()
+        if not url:
+            continue
+        # Values written in the sheet win, so a link whose preview is missing or
+        # wrong can be fixed by hand without changing any code. A row that fills
+        # in everything needs no request at all.
+        filled_in = all(item[key].strip() for key in ('title', 'description', 'image'))
+        preview = {} if filled_in else (opengraph.get_preview(url) or {})
+        items.append({
+            'url': url,
+            'title': item['title'].strip() or preview.get('title') or url,
+            'description': item['description'].strip() or preview.get('description') or '',
+            'image': item['image'].strip() or preview.get('image') or '',
+            'source': preview.get('site_name') or urllib.parse.urlparse(url).netloc,
+            'date': item['date'].strip(),
+        })
+    return items
+
+def load_news(doc_id):
+    tables = load_optional_ranges(doc_id, NEWS_RANGES)
+    if tables is None:
+        return []
+    return conv_news(tables[0])
+
 def conv_pages(table):
     pages = []
     for row in table:
@@ -213,5 +253,6 @@ def load_data():
         'pages': conv_pages(tables[6]),
         'redirects': conv_redirects(tables[7]),
         'personal': load_personal(tables[8]),
+        'news': load_news(doc_id),
     }
 
