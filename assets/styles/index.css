@@ -379,7 +379,7 @@ body {
     display: block;
     position: relative;
     padding: 1.2rem 1rem 1.2rem 17rem;
-    min-height: 11rem;
+    min-height: 12.5rem;
     color: var(--text-color);
     text-decoration: none;
 }
@@ -393,14 +393,15 @@ body {
     left: 1rem;
     top: 1.2rem;
     width: 15rem;
-    /* Thumbnails arrive at whatever size each publisher uses, so the whole
-       image is fitted inside a fixed box instead of being cropped to fill it.
-       The leftover space stays transparent and picks up the row background. */
-    aspect-ratio: 16 / 9;
+    /* Thumbnails arrive at whatever size each publisher uses. Scaling to the
+       box width keeps every thumbnail the same width down the list, and the
+       box is deep enough for a 3:2 image so nothing is cropped. */
+    aspect-ratio: 3 / 2;
     background-color: transparent;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 100% auto;
+    overflow: hidden;
 }
 
 .news-title {
@@ -477,7 +478,7 @@ body {
 
     .news-card {
         padding: 1rem 0.5rem 1rem 9.5rem;
-        min-height: 6.5rem;
+        min-height: 7.5rem;
     }
 
     .news-image {
