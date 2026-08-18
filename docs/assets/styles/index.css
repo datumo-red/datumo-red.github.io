@@ -287,6 +287,15 @@ body {
     font-size: 0.7rem;
     font-weight: bold;
 }
+.research-item .title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    transition: color 0.5s ease;
+}
+.research-item .title a:hover {
+    color: var(--link-color);
+}
 .research-item .authors {
     padding: 0;
     font-size: 0.8rem;
@@ -373,6 +382,36 @@ body {
     padding-bottom: 0.3rem;
     font-size: 1rem;
     color: var(--text-color);
+}
+
+.research-detail-meta {
+    padding-bottom: 1.5rem;
+}
+
+.research-detail-content {
+    max-width: 48rem;
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+/* Write-ups embed figures, which must not spill out of the column. */
+.page .v-padded img {
+    max-width: 100%;
+    height: auto;
+}
+
+.research-detail-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+.research-detail-content em {
+    color: var(--grey-color);
+    font-size: 0.85rem;
 }
 
 .news-card {
