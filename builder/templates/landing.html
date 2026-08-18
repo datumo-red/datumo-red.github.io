@@ -39,7 +39,13 @@
                 {% for item in landing_research %}
                 <div class="research-item row-item">
                     <div class="title-row">
-                        <h4 class="title">{{ item.title }}</h4>
+                        <h4 class="title">
+                            {% if item.has_page %}
+                            <a href="/research/{{ item.path }}">{{ item.title }}</a>
+                            {% else %}
+                            {{ item.title }}
+                            {% endif %}
+                        </h4>
                     </div>
                     <div class="authors">{{ item.authors }}</div>
                     <div class="booktitle">{{ item.booktitle }}</div>

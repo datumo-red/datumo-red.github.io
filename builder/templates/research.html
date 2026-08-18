@@ -20,7 +20,13 @@
                     {% for item in group.rows %}
                     <div class="research-item row-item">
                         <div class="title-row">
-                            <h4 class="title">{{ item.title }}</h4>
+                            <h4 class="title">
+                                {% if item.has_page %}
+                                <a href="/research/{{ item.path }}">{{ item.title }}</a>
+                                {% else %}
+                                {{ item.title }}
+                                {% endif %}
+                            </h4>
                         </div>
                         <div class="authors">{{ item.authors }}</div>
                         <div class="booktitle">{{ item.booktitle }}</div>
@@ -68,7 +74,10 @@
                 <template v-for="(item, i) in group.rows">
                     <div class="research-item row-item" :class="{ hidden: isHidden(item.tags) }">
                         <div class="title-row">
-                            <h4 class="title">[[ item.title ]]</h4>
+                            <h4 class="title">
+                                <a v-if="item.has_page" :href="'/research/' + item.path">[[ item.title ]]</a>
+                                <template v-else>[[ item.title ]]</template>
+                            </h4>
                             <template v-for="tagId in item.tags">
                                 <div class="tag" v-if="tagId in tags" :key="tagId" :style="{ backgroundColor: tags[tagId].color }">
                                     [[ tags[tagId].tag ]]

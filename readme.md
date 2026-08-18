@@ -46,6 +46,29 @@ The `Members` tab groups people by column A, so rows sharing a value in column A
 
 Rows with a value in `Year` are rendered as alumni.
 
+### Research write-ups
+
+The `Research` tab lists the papers. A paper can also have a page of its own, written as a Markdown file in *[research](research)* rather than in a spreadsheet cell — long prose with figures is painful to edit in a cell, and the images have to be committed to this repository anyway.
+
+Put the slug in column G of the `Research` tab and the write-up in `research/<slug>.md`:
+
+| A | B | C | D | E | F | G |
+| --- | --- | --- | --- | --- | --- | --- |
+| Section | Title | Authors | Venue | Links | Tags | Slug |
+
+The file holds the body only. The title, authors, venue and link buttons come from the sheet row, so they are never typed twice. When `research/<slug>.md` exists, the paper is published at `/research/<slug>` and its title becomes a link on the research and landing pages; when it does not, the entry renders exactly as before. Slugs are restricted to letters, digits, `-` and `_`.
+
+Figures go under *assets*, which is copied into the build, so reference them from the site root:
+
+```markdown
+## Abstract
+
+...
+
+![Framework overview](/assets/research/cage/overview.png)
+*Figure 1. Overall structure*
+```
+
 ### News
 
 The `News` tab is optional and is fetched separately, so the site still builds without it. Only column A is required — the build opens each link and reads its [Open Graph](https://ogp.me/) tags for the rest:

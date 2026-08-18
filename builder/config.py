@@ -6,6 +6,11 @@ BUILD_PATH = os.path.join(BASE_PATH, 'docs')
 # every build. copy_assets() publishes them to docs/assets/news.
 NEWS_IMAGE_PATH = os.path.join(BASE_PATH, 'assets', 'news')
 NEWS_IMAGE_URL_BASE = '/assets/news'
+# Long-form write-ups for individual papers. The spreadsheet holds the paper
+# list; the prose and its images live here, where they can be edited and
+# reviewed like any other file.
+RESEARCH_PATH = os.path.join(BASE_PATH, 'research')
+RESEARCH_URL_BASE = '/research'
 
 def get_secret(name):
     # GitHub Actions exposes action inputs as INPUT_*, so check that first and

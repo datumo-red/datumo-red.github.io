@@ -3,6 +3,7 @@ import markdown
 import urllib.parse
 from datetime import datetime
 from jinja2 import Environment, PackageLoader, Markup, select_autoescape
+from . import loader
 
 def init_env():
     global env
@@ -25,6 +26,10 @@ def render_index(data):
 def render_members(data):
     template = env.get_template('members.html')
     return template.render(data=data)
+
+def render_research_detail(data, item):
+    template = env.get_template('research_detail.html')
+    return template.render(data=data, item=item, content=loader.load_research_content(item['path']))
 
 def render_news(data):
     template = env.get_template('news.html')

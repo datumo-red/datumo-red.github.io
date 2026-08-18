@@ -1,5 +1,6 @@
 import certifi
 import dateutil.parser
+import os
 import re
 import json
 import urllib.error
@@ -13,7 +14,7 @@ RANGES = [
     'Website!B2:C',
     'Announcements!A2:C',
     'Members!A2:H',
-    'Research!A2:F',
+    'Research!A2:G',
     'Tags!A2:F',
     'Links!A2:G',
     'Pages!A2:C',
@@ -110,6 +111,19 @@ def conv_members(table):
         groups.append(group)
     return groups
 
+def get_research_slug(value):
+    # The slug becomes both a file name and a URL, so keep it to characters
+    # that are safe in each and cannot climb out of the research directory.
+    slug = (value or '').strip().strip('/')
+    return slug if re.match(r'^[A-Za-z0-9_-]+$', slug) else ''
+
+def get_research_file(slug):
+    return os.path.join(config.RESEARCH_PATH, '%s.md' % slug)
+
+def load_research_content(slug):
+    with open(get_research_file(slug), 'r') as f:
+        return f.read()
+
 def conv_research(table):
     groups = []
     group = None
@@ -119,9 +133,12 @@ def conv_research(table):
             if group:
                 groups.append(group)
             group = {'title': title, 'rows': []}
-        item = row_to_dict(row, ['title', 'authors', 'booktitle', 'links', 'tags'], 1)            
+        item = row_to_dict(row, ['title', 'authors', 'booktitle', 'links', 'tags', 'path'], 1)
         if 'tags' in item:
             item['tags'] = [tag.strip() for tag in (item['tags'] or '').split(',') if tag]
+        item['path'] = get_research_slug(item['path'])
+        # Only papers with a write-up on disk get a page of their own.
+        item['has_page'] = bool(item['path']) and os.path.exists(get_research_file(item['path']))
         group['rows'].append(item)
     if group:
         groups.append(group)
