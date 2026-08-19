@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/assets/images/logo.png">
+    <link rel="stylesheet" href="/assets/styles/index.css">
+    <link rel="stylesheet" href="/assets/styles/header.css">
+    <link rel="stylesheet" href="/assets/styles/screen.css">
+    <link rel="stylesheet" href="/assets/styles/footer.css">
+    <title>datumo safety team</title>
+    
+    
+</head>
+
+<body>
+    
+    <header class="header" :class="{ 'header-scrolled': scrolled  }" id="header">
+    <div class="header-content">
+        <a href="/">
+            <div class="logo">
+                <!-- <div class="logo-drawing-container">
+                    <div class="logo-drawing" ref="logo"></div>
+                </div> -->
+                <div class="logo-text pre-wrap">Datumo Safety Team</div>
+            </div>
+        </a>
+        <div class="header-menu">
+            <a class="header-menu-item" href="/">
+                Home
+            </a>
+            <a class="header-menu-item" href="/members.html">
+                Members
+            </a>
+            <a class="header-menu-item" href="/research.html">
+                Research
+            </a>
+            
+            <a class="header-menu-item" href="/news.html">
+                News
+            </a>
+            
+            <a class="header-menu-item" href="/contact.html">
+                Contact
+            </a>
+        </div>
+    </div>
+</header>
+    <div class="main">
+        
+<div class="page home">
+    
+    <section class="screen" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url()">
+    <div class="content">
+        <h2>Speaker Sensitive Response Evaluation Model</h2><br />
+        <small>datumo safety team</small>
+    </div>
+</section>
+    
+    <div class="row">
+        <div class="container">
+            <div class="v-padded">
+                <div class="research-detail-meta">
+                    <div class="authors">JinYeong Bak, and Alice Oh </div>
+                    <div class="booktitle">Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)</div>
+                    
+                    <div class="link-buttons link-buttons-small">
+                        <p><a href="https://www.aclweb.org/anthology/2020.acl-main.568/">PDF</a>
+<a href="https://github.com/NoSyu/SSREM">Code</a></p>
+                    </div>
+                    
+                </div>
+                <div class="research-detail-content">
+                    <h2>Abstract</h2>
+<p>TODO — 논문 초록을 한 문단으로. 제목·저자·학회·PDF 버튼은 시트의 <code>Research</code> 행에서 자동으로 위에 붙으니 여기서는 반복하지 않아도 됩니다.</p>
+<h2>Background</h2>
+<p>TODO — 어떤 문제를 풀었는지. 기존 레드티밍 벤치마크가 영어권 기준으로 만들어져 있어 다른 문화권에 그대로 적용하기 어렵다는 식의 배경.</p>
+<h2>Method</h2>
+<p>TODO — 프레임워크가 어떻게 동작하는지.</p>
+<p><img alt="프레임워크 개요" src="/assets/research/cage/fig1.png" />
+<em>그림 1. CAGE 전체 구조</em></p>
+<h2>Results</h2>
+<p>TODO — 주요 결과. 표가 필요하면 마크다운 표를 그대로 쓰면 됩니다.</p>
+<p><img alt="언어별 비교" src="/assets/research/cage/fig2.png" />
+<em>그림 2. 언어별 거부율 비교</em></p>
+<h2>Citation</h2>
+<p><code>bibtex
+TODO</code></p>
+                </div>
+                <div class="link-buttons link-buttons-large">
+                    <a class="more-button" href="/research.html">Back to Research</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-item">
+                <div class="footer-text">
+                    &copy; Copyright <span id="footer-year">2020</span> | datumo safety team
+                </div>
+                <div class="footer-text pre-wrap">10F, 8 Teheran-ro 38-gil
+Gangnam-gu, Seoul, Republic of Korea</div>
+            </div>
+            <div class="footer-item">
+                <div class="footer-text">
+                    <a href="">
+                        Repository for this Website
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('footer-year').innerHTML = (new Date()).getFullYear();
+    </script>
+</footer>
+    
+    <script src="/assets/scripts/index.js"></script>
+</body>
+
+</html>
