@@ -231,7 +231,30 @@ def conv_news(table):
             'source': preview.get('site_name') or urllib.parse.urlparse(url).netloc,
             'date': item['date'].strip(),
         })
-    return items
+    return sort_news(items)
+
+def get_news_date(value):
+    if not value:
+        return None
+    try:
+        # Compare naively: some rows may carry a time zone and others not.
+        return dateutil.parser.parse(value).replace(tzinfo=None)
+    except (ValueError, OverflowError):
+        print('  ! could not read the date %r, leaving that item unsorted' % value)
+        return None
+
+def sort_news(items):
+    """Newest first. Rows with no readable date keep sheet order, at the end."""
+    dated, undated = [], []
+    for item in items:
+        date = get_news_date(item['date'])
+        if date is None:
+            undated.append(item)
+        else:
+            dated.append((date, item))
+    # Stable, so items sharing a date stay in the order they were written.
+    dated.sort(key=lambda pair: pair[0], reverse=True)
+    return [item for _, item in dated] + undated
 
 def load_news(doc_id):
     tables = load_optional_ranges(doc_id, NEWS_RANGES)
