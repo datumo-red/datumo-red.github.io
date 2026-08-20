@@ -96,19 +96,24 @@ def conv_announcements(table):
         })
     return items
 
+def get_group(groups, index, title, items_key):
+    """Find or start the section named `title`, keeping first-seen order.
+
+    Rows sharing a section title belong together wherever they sit in the
+    sheet, so a row inserted out of place does not split the section in two.
+    Sections appear in the order their titles first show up.
+    """
+    if title not in index:
+        index[title] = {'title': title, items_key: []}
+        groups.append(index[title])
+    return index[title]
+
 def conv_members(table):
-    groups = []
-    group = None
+    groups, index = [], {}
     for row in table:
-        title = row[0]
-        if group is None or group['title'] != title:
-            if group:
-                groups.append(group)
-            group = {'title': title, 'members': []}
+        group = get_group(groups, index, row[0], 'members')
         member = row_to_dict(row, ['name', 'email', 'image', 'description', 'links', 'degree', 'year'], 1)
         group['members'].append(member)
-    if group:
-        groups.append(group)
     return groups
 
 def get_research_slug(value):
@@ -125,14 +130,9 @@ def load_research_content(slug):
         return f.read()
 
 def conv_research(table):
-    groups = []
-    group = None
+    groups, index = [], {}
     for row in table:
-        title = row[0]
-        if group is None or group['title'] != title:
-            if group:
-                groups.append(group)
-            group = {'title': title, 'rows': []}
+        group = get_group(groups, index, row[0], 'rows')
         item = row_to_dict(row, ['title', 'authors', 'booktitle', 'links', 'tags', 'path'], 1)
         if 'tags' in item:
             item['tags'] = [tag.strip() for tag in (item['tags'] or '').split(',') if tag]
@@ -140,8 +140,6 @@ def conv_research(table):
         # Only papers with a write-up on disk get a page of their own.
         item['has_page'] = bool(item['path']) and os.path.exists(get_research_file(item['path']))
         group['rows'].append(item)
-    if group:
-        groups.append(group)
     return groups
 
 def conv_tags(table):
@@ -155,18 +153,11 @@ def conv_tags(table):
     return tags
 
 def conv_links(table):
-    groups = []
-    group = None
+    groups, index = [], {}
     for row in table:
-        title = row[0]
-        if group is None or group['title'] != title:
-            if group:
-                groups.append(group)
-            group = {'title': title, 'rows': []}
+        group = get_group(groups, index, row[0], 'rows')
         item = row_to_dict(row, ['title', 'full_title', 'url', 'query', 'call_month', 'event_month'], 1)
         group['rows'].append(item)
-    if group:
-        groups.append(group)
     return groups
 
 def conv_personal_website(table):
