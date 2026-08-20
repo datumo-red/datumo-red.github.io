@@ -11,7 +11,9 @@ def init_env():
         loader=PackageLoader('builder', 'templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-    md = markdown.Markdown(extensions=['meta'])
+    # Write-ups carry result tables and BibTeX blocks, neither of which the
+    # bare parser recognises.
+    md = markdown.Markdown(extensions=['meta', 'tables', 'fenced_code'])
     env.filters['markdown'] = lambda text: Markup(md.convert(text))
     env.filters['jsonify'] = lambda text: json.dumps(text)
 
