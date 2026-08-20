@@ -77,7 +77,9 @@ The `News` tab is optional and is fetched separately, so the site still builds w
 | --- | --- | --- | --- | --- |
 | URL | Title | Description | Image | Date |
 
-Anything filled in from B to E overrides what the linked page reports, which is how you fix a link that has no preview or a bad one. A row with B, C and D all filled in is never fetched. Links that cannot be read fall back to the URL as the title and to a default thumbnail; the build logs each one and keeps going.
+Anything filled in from B to E overrides what the linked page reports, which is how you fix a link that has no preview or a bad one. A row with B, C and D all filled in is never fetched.
+
+Items are ordered by column E, newest first, so sheet order does not matter. Most ways of writing a date are understood, including `2026-08-01` and `2026. 8. 1.`; a row whose date is empty or unreadable keeps its place in the sheet and sits at the end of the list. Links that cannot be read fall back to the URL as the title and to a default thumbnail; the build logs each one and keeps going.
 
 Thumbnails are downloaded into *assets/news* and committed, named after a hash of the image URL. An image already on disk is never fetched again, so each thumbnail costs one request in total rather than one per build, and the card keeps working after the publisher moves or deletes the original. A thumbnail that cannot be fetched is dropped rather than linked, so the card falls back to a default image instead of showing a broken one.
 
