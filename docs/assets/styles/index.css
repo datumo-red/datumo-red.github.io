@@ -414,6 +414,47 @@ body {
     font-size: 0.85rem;
 }
 
+.research-detail-content table {
+    display: block;
+    /* Result tables can be wider than the column on a narrow screen. */
+    overflow-x: auto;
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.research-detail-content th,
+.research-detail-content td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.research-detail-content th {
+    border-bottom-width: 2px;
+    color: var(--main-color);
+}
+
+.research-detail-content pre {
+    overflow-x: auto;
+    padding: 1rem;
+    background-color: var(--light-grey-color);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.research-detail-content code {
+    font-size: 0.9em;
+}
+
+.research-detail-content :not(pre) > code {
+    padding: 0.1rem 0.3rem;
+    background-color: var(--light-grey-color);
+    border-radius: 3px;
+}
+
 .news-card {
     display: block;
     position: relative;
