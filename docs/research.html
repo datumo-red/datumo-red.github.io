@@ -206,16 +206,16 @@
             <div class="tag-selector v-padded">
                 <h3 class="row-title">Topics</h3>
                 <div class="link-buttons link-buttons-large">
-                    <a class="tag" :class="{ active: activeTagId === null }" @click="activeTagId = null">
+                    <a class="tag" :class="{ active: activeTagIds.length === 0 }" @click="activeTagIds = []">
                         Show All
                     </a>
-                    <a 
-                        class="tag" 
-                        v-for="tagId in Object.keys(tags)" 
-                        :key="tagId" 
-                        :class="{ active: activeTagId === tagId }"
-                        :style="{ backgroundColor: tags[tagId].color }" 
-                        @click="activeTagId = tagId"
+                    <a
+                        class="tag"
+                        v-for="tagId in Object.keys(tags)"
+                        :key="tagId"
+                        :class="{ active: isActive(tagId) }"
+                        :style="{ backgroundColor: tags[tagId].color }"
+                        @click="toggleTag(tagId)"
                     >
                         [[ tags[tagId].title ]]
                     </a>
@@ -223,7 +223,14 @@
             </div>
         </div>
     </div>
-    <div class="row" v-for="(group, i) in research" :key="i">
+    <div class="row" v-if="isEmpty()">
+        <div class="container">
+            <div class="category v-padded">
+                <div class="empty-result">No papers match every selected topic.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row" v-for="(group, i) in visibleGroups()" :key="i">
         <div class="container">
             <div class="category v-padded">
                 <h3 class="row-title">[[ group.title ]]</h3>
@@ -259,11 +266,39 @@
         data: {
             research: [{"title": "Main Conference", "rows": [{"title": "KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge\n", "authors": "Jiyong Lee, and Minwoo Kim", "booktitle": "The 64th Annual Meeting of the Association for Computational Linguistics (ACL 2026)", "links": "[PDF](https://aclanthology.org/2024.findings-acl.666/)\n[Huggingface](https://huggingface.co/datasets/datumo/KorNAT)", "tags": ["safety", "benchmark", "bias"], "path": "kornat", "has_page": true}, {"title": "CAGE: A Framework for Culturally Adaptive Red-Teaming Benchmark Generation", "authors": "Chaeyoon Kim, Yongtaek Lim, and Minwoo Kim", "booktitle": "The Fourteenth International Conference on Learning Representations (ICLR 2026)", "links": "[PDF](https://openreview.net/pdf?id=gCm55KYiqz)\n[Poster](https://iclr.cc/media/PosterPDFs/ICLR%202026/10008170.png?t=1776065685.406712)\n[Code](https://github.com/selectstar-ai/CAGE-paper)\n[Huggingface](https://huggingface.co/datasets/datumo/KorSET)", "tags": ["safety", "benchmark", "culture"], "path": "cage", "has_page": true}]}, {"title": "Workshop", "rows": [{"title": "", "authors": "", "booktitle": "", "links": "", "tags": [], "path": "", "has_page": false}, {"title": "", "authors": "", "booktitle": "", "links": "", "tags": [], "path": "", "has_page": false}, {"title": "", "authors": "", "booktitle": "", "links": "", "tags": [], "path": "", "has_page": false}]}, {"title": "Preprint", "rows": [{"title": "FinRED: An Expert-Guided Benchmark Generation and Evaluation Framework for Financial LLM Red-Teaming", "authors": "Chaeyoon Kim, Yongtaek Lim, and Minwoo Kim", "booktitle": "The 26th IEEE International Conference on Data Mining (IEEE ICDM 2026)", "links": "[PDF](https://arxiv.org/pdf/2606.19887)\n[Code](https://github.com/selectstar-ai/FinRED-paper)\n[Huggingface](https://huggingface.co/datasets/datumo/FinRED)", "tags": ["safety", "benchmark", "financial"], "path": "finred", "has_page": true}]}],
             tags: {"safety": {"title": "AI Safety", "tag": "Safety", "color": "#F49390"}, "bias": {"title": "Bias", "tag": "Bias", "color": "#F45866"}, "benchmark": {"title": "Benchmark", "tag": "Benchmark", "color": "#75B9BE"}, "attacker": {"title": "Attacker", "tag": "Attacker", "color": "#B4533C"}, "judge": {"title": "Judge", "tag": "Judge", "color": "#A8455C"}, "guard": {"title": "Guardrail", "tag": "Guardrail", "color": "#8E4A5F"}, "financial": {"title": "Financial", "tag": "Financial", "color": "#6B5B95"}, "medical": {"title": "Medical", "tag": "Medical", "color": "#4F5D8C"}, "legal": {"title": "Legal", "tag": "Legal", "color": "#3F6FA3"}, "agent": {"title": "Agent", "tag": "Agent", "color": "#2F7A85"}, "culture": {"title": "Curturally Adapted", "tag": "Curturally Adapted", "color": "#417F6B"}},
-            activeTagId: null,
+            activeTagIds: [],
         },
         methods: {
+            isActive: function(tagId) {
+                return this.activeTagIds.indexOf(tagId) !== -1
+            },
+            toggleTag: function(tagId) {
+                var at = this.activeTagIds.indexOf(tagId)
+                if (at === -1) {
+                    this.activeTagIds.push(tagId)
+                } else {
+                    this.activeTagIds.splice(at, 1)
+                }
+            },
             isHidden: function(tags) {
-                return (this.activeTagId !== null) && !tags.includes(this.activeTagId)
+                // Selecting more topics narrows the list: an item has to carry
+                // every one of them.
+                return !this.activeTagIds.every(function(tagId) {
+                    return tags.indexOf(tagId) !== -1
+                })
+            },
+            visibleGroups: function() {
+                var self = this
+                // Drop a section once nothing in it survives the filter, so no
+                // heading is left standing over an empty space.
+                return this.research.filter(function(group) {
+                    return group.rows.some(function(row) {
+                        return !self.isHidden(row.tags)
+                    })
+                })
+            },
+            isEmpty: function() {
+                return this.activeTagIds.length > 0 && this.visibleGroups().length === 0
             },
         },
     })
