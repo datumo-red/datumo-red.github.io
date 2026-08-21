@@ -50,16 +50,16 @@
             <div class="tag-selector v-padded">
                 <h3 class="row-title">Topics</h3>
                 <div class="link-buttons link-buttons-large">
-                    <a class="tag" :class="{ active: activeTagId === null }" @click="activeTagId = null">
+                    <a class="tag" :class="{ active: activeTagIds.length === 0 }" @click="activeTagIds = []">
                         Show All
                     </a>
-                    <a 
-                        class="tag" 
-                        v-for="tagId in Object.keys(tags)" 
-                        :key="tagId" 
-                        :class="{ active: activeTagId === tagId }"
-                        :style="{ backgroundColor: tags[tagId].color }" 
-                        @click="activeTagId = tagId"
+                    <a
+                        class="tag"
+                        v-for="tagId in Object.keys(tags)"
+                        :key="tagId"
+                        :class="{ active: isActive(tagId) }"
+                        :style="{ backgroundColor: tags[tagId].color }"
+                        @click="toggleTag(tagId)"
                     >
                         [[ tags[tagId].title ]]
                     </a>
@@ -67,7 +67,14 @@
             </div>
         </div>
     </div>
-    <div class="row" v-for="(group, i) in research" :key="i">
+    <div class="row" v-if="isEmpty()">
+        <div class="container">
+            <div class="category v-padded">
+                <div class="empty-result">No papers match every selected topic.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row" v-for="(group, i) in visibleGroups()" :key="i">
         <div class="container">
             <div class="category v-padded">
                 <h3 class="row-title">[[ group.title ]]</h3>
@@ -103,11 +110,39 @@
         data: {
             research: {{ data.research | jsonify | safe }},
             tags: {{ data.tags | jsonify | safe }},
-            activeTagId: null,
+            activeTagIds: [],
         },
         methods: {
+            isActive: function(tagId) {
+                return this.activeTagIds.indexOf(tagId) !== -1
+            },
+            toggleTag: function(tagId) {
+                var at = this.activeTagIds.indexOf(tagId)
+                if (at === -1) {
+                    this.activeTagIds.push(tagId)
+                } else {
+                    this.activeTagIds.splice(at, 1)
+                }
+            },
             isHidden: function(tags) {
-                return (this.activeTagId !== null) && !tags.includes(this.activeTagId)
+                // Selecting more topics narrows the list: an item has to carry
+                // every one of them.
+                return !this.activeTagIds.every(function(tagId) {
+                    return tags.indexOf(tagId) !== -1
+                })
+            },
+            visibleGroups: function() {
+                var self = this
+                // Drop a section once nothing in it survives the filter, so no
+                // heading is left standing over an empty space.
+                return this.research.filter(function(group) {
+                    return group.rows.some(function(row) {
+                        return !self.isHidden(row.tags)
+                    })
+                })
+            },
+            isEmpty: function() {
+                return this.activeTagIds.length > 0 && this.visibleGroups().length === 0
             },
         },
     })
