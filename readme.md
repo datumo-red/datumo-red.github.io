@@ -69,6 +69,12 @@ Figures go under *assets*, which is copied into the build, so reference them fro
 *Figure 1. Overall structure*
 ```
 
+### Standalone pages
+
+A self-contained `.html` file in *[standalone](standalone)* is published as-is at `/<file name>/`, without the site's header and footer. It is meant for interactive figures that bring their own styling and scripts, where wrapping them in the site template would fight with their layout.
+
+`standalone/flywheel.html` becomes `/flywheel/`. Nothing else references it, so link to it from the sheet — the `Links` column of a `Research` row, or a `Pages` entry — if it should be reachable by clicking.
+
 ### News
 
 The `News` tab is optional and is fetched separately, so the site still builds without it. Only column A is required — the build opens each link and reads its [Open Graph](https://ogp.me/) tags for the rest:

@@ -116,9 +116,9 @@ def conv_members(table):
         group['members'].append(member)
     return groups
 
-def get_research_slug(value):
-    # The slug becomes both a file name and a URL, so keep it to characters
-    # that are safe in each and cannot climb out of the research directory.
+def get_slug(value):
+    # A slug becomes both a file name and a URL, so keep it to characters that
+    # are safe in each and cannot climb out of the directory holding them.
     slug = (value or '').strip().strip('/')
     return slug if re.match(r'^[A-Za-z0-9_-]+$', slug) else ''
 
@@ -129,6 +129,22 @@ def load_research_content(slug):
     with open(get_research_file(slug), 'r') as f:
         return f.read()
 
+def get_standalone_pages():
+    if not os.path.isdir(config.STANDALONE_PATH):
+        return []
+    slugs = []
+    for name in sorted(os.listdir(config.STANDALONE_PATH)):
+        if not name.endswith('.html'):
+            continue
+        slug = get_slug(name[:-len('.html')])
+        if slug:
+            slugs.append(slug)
+    return slugs
+
+def load_standalone(slug):
+    with open(os.path.join(config.STANDALONE_PATH, '%s.html' % slug), 'r') as f:
+        return f.read()
+
 def conv_research(table):
     groups, index = [], {}
     for row in table:
@@ -136,7 +152,7 @@ def conv_research(table):
         item = row_to_dict(row, ['title', 'authors', 'booktitle', 'links', 'tags', 'path'], 1)
         if 'tags' in item:
             item['tags'] = [tag.strip() for tag in (item['tags'] or '').split(',') if tag]
-        item['path'] = get_research_slug(item['path'])
+        item['path'] = get_slug(item['path'])
         # Only papers with a write-up on disk get a page of their own.
         item['has_page'] = bool(item['path']) and os.path.exists(get_research_file(item['path']))
         group['rows'].append(item)
@@ -293,5 +309,6 @@ def load_data():
         'redirects': conv_redirects(tables[7]),
         'personal': load_personal(tables[8]),
         'news': load_news(doc_id),
+        'standalone': get_standalone_pages(),
     }
 

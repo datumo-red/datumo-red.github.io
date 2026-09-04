@@ -11,6 +11,9 @@ NEWS_IMAGE_URL_BASE = '/assets/news'
 # reviewed like any other file.
 RESEARCH_PATH = os.path.join(BASE_PATH, 'research')
 RESEARCH_URL_BASE = '/research'
+# Self-contained pages published verbatim, without the site's header and
+# footer. Each file here becomes one page named after it.
+STANDALONE_PATH = os.path.join(BASE_PATH, 'standalone')
 
 def get_secret(name):
     # GitHub Actions exposes action inputs as INPUT_*, so check that first and

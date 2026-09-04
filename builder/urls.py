@@ -33,6 +33,11 @@ def get_pages(data):
         ) for item in get_research_items(data)
     ] + [
         Page(
+            get_safe_path(slug),
+            lambda x, slug=slug: render_standalone(x, slug),
+        ) for slug in data['standalone']
+    ] + [
+        Page(
             get_safe_path(page['path']),
             lambda x, page=page: render_page(x, page),
         ) for page in data['pages']
