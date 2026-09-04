@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/assets/images/logo.png">
+    <link rel="stylesheet" href="/assets/styles/index.css">
+    <link rel="stylesheet" href="/assets/styles/header.css">
+    <link rel="stylesheet" href="/assets/styles/screen.css">
+    <link rel="stylesheet" href="/assets/styles/footer.css">
+    <title>datumo safety team</title>
+    
+    
+</head>
+
+<body>
+    
+    <header class="header" :class="{ 'header-scrolled': scrolled  }" id="header">
+    <div class="header-content">
+        <a href="/">
+            <div class="logo">
+                <!-- <div class="logo-drawing-container">
+                    <div class="logo-drawing" ref="logo"></div>
+                </div> -->
+                <div class="logo-text pre-wrap">Datumo Safety Team</div>
+            </div>
+        </a>
+        <div class="header-menu">
+            <a class="header-menu-item" href="/">
+                Home
+            </a>
+            <a class="header-menu-item" href="/members.html">
+                Members
+            </a>
+            <a class="header-menu-item" href="/research.html">
+                Research
+            </a>
+            
+            <a class="header-menu-item" href="/topics.html">
+                Topics
+            </a>
+            
+            
+            <a class="header-menu-item" href="/news.html">
+                News
+            </a>
+            
+            <a class="header-menu-item" href="/contact.html">
+                Contact
+            </a>
+        </div>
+    </div>
+</header>
+    <div class="main">
+        
+<div class="topics home">
+    
+    <section class="screen" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url()">
+    <div class="content">
+        <h2>Research Topics</h2><br />
+        <small>datumo safety team</small>
+    </div>
+</section>
+    
+    <div class="row">
+        <div class="container">
+            <div class="v-padded">
+                <div class="flow" id="flow">
+                    
+                    <button
+                        class="stage active"
+                        type="button"
+                        data-topic="benchmark"
+                        aria-controls="topic-benchmark"
+                        aria-expanded="true"
+                    >
+                        <span class="stage-num">01</span>
+                        <span class="stage-name">Benchmark</span>
+                        <span class="stage-sum">무엇을 위험으로 볼지 정의하고, 문화와 도메인에 맞는 시험 문제를 만든다</span>
+                    </button>
+                    <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+                    
+                    <button
+                        class="stage"
+                        type="button"
+                        data-topic="attacker"
+                        aria-controls="topic-attacker"
+                        aria-expanded="false"
+                    >
+                        <span class="stage-num">02</span>
+                        <span class="stage-name">Attacker</span>
+                        <span class="stage-sum">공격 전략을 탐색하고, 대상 시스템에 맞는 프롬프트를 자동으로 만든다</span>
+                    </button>
+                    <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+                    
+                    <button
+                        class="stage"
+                        type="button"
+                        data-topic="judge"
+                        aria-controls="topic-judge"
+                        aria-expanded="false"
+                    >
+                        <span class="stage-num">03</span>
+                        <span class="stage-name">Judge</span>
+                        <span class="stage-sum">무엇이 얼마나 잘못됐는지, 어느 구성요소가 실패했는지 채점한다</span>
+                    </button>
+                    <span class="flow-arrow" aria-hidden="true">&rarr;</span>
+                    
+                    <button
+                        class="stage"
+                        type="button"
+                        data-topic="guardrail"
+                        aria-controls="topic-guardrail"
+                        aria-expanded="false"
+                    >
+                        <span class="stage-num">04</span>
+                        <span class="stage-name">Guardrail</span>
+                        <span class="stage-sum">입력과 출력 사이에 서서 위험한 요청과 응답을 걸러낸다</span>
+                    </button>
+                    
+                    
+                </div>
+                <p class="flow-loop">
+                    확인된 실패는 벤치마크로 되돌아가 다음 회차의 시험 문제가 된다.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="v-padded">
+                
+                <article class="topic-panel" id="topic-benchmark" data-topic="benchmark">
+                    <h3 class="row-title">Benchmark</h3>
+                    <div class="topic-body">
+                        <h2>무엇을 하는가</h2>
+<p>안전성을 재려면 먼저 <strong>무엇을 위험으로 볼지</strong> 정해야 한다. 이 단계는 국제 규범과 각국 법·제도, 사고 사례를 모아 위험 분류 체계를 세우고, 그 체계를 실제로 모델에 던질 수 있는 시험 문제로 바꾼다.</p>
+<h2>왜 어려운가</h2>
+<p>기존 벤치마크를 다른 언어로 번역해 쓰는 방식이 흔하지만, 문장은 번역돼도 위협은 번역되지 않는다. 그 사회의 제도와 규범 위에서만 성립하는 공격은 직역본에서 사라지고, 평가는 그만큼 헐거워진다.</p>
+<p>도메인도 마찬가지다. 의료와 금융은 일반 대화에서 안전한 답이 규제 위반이 되는 영역이라, 도메인 전문가 없이는 문제 자체를 만들 수 없다.</p>
+<p>TODO — 팀이 세운 분류 체계의 층위와 규모를 여기에.</p>
+<h2>지금 하고 있는 것</h2>
+<p>TODO — 진행 중인 작업과 협업 기관.</p>
+                    </div>
+                </article>
+                
+                <article class="topic-panel" id="topic-attacker" data-topic="attacker">
+                    <h3 class="row-title">Attacker</h3>
+                    <div class="topic-body">
+                        <h2>무엇을 하는가</h2>
+<p>만들어진 시험 문제를 실제 공격으로 바꾼다. 전략 공간을 탐색해 어떤 방식이 통하는지 찾고, 그에 맞춰 프롬프트를 생성한다. 다중 턴, 멀티모달, 전이 최적화, 거부 패턴 적응 등이 여기에 들어간다.</p>
+<h2>왜 어려운가</h2>
+<p>사람이 손으로 만든 공격은 만든 사람의 상상력을 못 넘는다. 자동화해도 무작위로 흔들면 대부분 무의미한 시도로 끝난다. 어디를 흔들면 무너지는지를 <strong>모델의 반응으로부터 배우는</strong> 구조가 필요하다.</p>
+<p>TODO — 전략 탐색 방식을 여기에.</p>
+<h2>지금 하고 있는 것</h2>
+<p>TODO — 진행 중인 작업.</p>
+                    </div>
+                </article>
+                
+                <article class="topic-panel" id="topic-judge" data-topic="judge">
+                    <h3 class="row-title">Judge</h3>
+                    <div class="topic-body">
+                        <h2>무엇을 하는가</h2>
+<p>공격에 대한 응답을 채점한다. 뚫렸는지 여부만 보는 게 아니라 <strong>얼마나 심각하게 실패했는지</strong>를 항목별 루브릭으로 재고, 에이전트라면 어느 구성요소에서 무너졌는지까지 추적한다.</p>
+<h2>왜 어려운가</h2>
+<p>"거부했다 / 거부하지 않았다"는 이분법은 실제로 쓸모가 없다. 모델이 답은 했지만 내용이 엉망인 경우와, 유창하게 유해한 답을 한 경우는 전혀 다른 실패다. 언어 능력이 부족한 모델일수록 전자가 많아서, 구분하지 않으면 <strong>못하는 모델이 안전해 보이는</strong> 착시가 생긴다.</p>
+<p>TODO — 루브릭 설계 방식을 여기에.</p>
+<h2>지금 하고 있는 것</h2>
+<p>TODO — 진행 중인 작업.</p>
+                    </div>
+                </article>
+                
+                <article class="topic-panel" id="topic-guardrail" data-topic="guardrail">
+                    <h3 class="row-title">Guardrail</h3>
+                    <div class="topic-body">
+                        <h2>무엇을 하는가</h2>
+<p>모델 앞뒤에 인라인으로 붙어 들어오는 프롬프트와 나가는 응답을 함께 검사한다. 소형 언어모델 기반 판별기, 정책·정규식 필터, 업로드 파일의 레이아웃까지 보는 멀티모달 탐지가 층으로 쌓인다.</p>
+<p>모델 자체를 건드리지 않고 안전성을 끌어올릴 수 있다는 점이 핵심이다. 배포된 시스템에 나중에 얹을 수 있다.</p>
+<h2>왜 어려운가</h2>
+<p>너무 조이면 멀쩡한 요청까지 막고, 느슨하면 존재 의미가 없다. 게다가 모든 요청이 통과하는 길목이라 <strong>느리면 쓸 수 없다.</strong> 정확도와 지연 사이의 균형이 이 연구의 대부분이다.</p>
+<p>TODO — 가드레일 구성과 성능 목표를 여기에.</p>
+<h2>지금 하고 있는 것</h2>
+<p>TODO — 진행 중인 작업.</p>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Every panel is in the page already, so the content is readable with no
+    // JavaScript at all; this only narrows it down to one at a time.
+    (function () {
+        var flow = document.getElementById('flow');
+        if (!flow) return;
+        var stages = [].slice.call(flow.querySelectorAll('.stage'));
+        var panels = [].slice.call(document.querySelectorAll('.topic-panel'));
+        function select(slug) {
+            stages.forEach(function (s) {
+                var on = s.getAttribute('data-topic') === slug;
+                s.classList.toggle('active', on);
+                s.setAttribute('aria-expanded', String(on));
+            });
+            panels.forEach(function (p) {
+                p.hidden = p.getAttribute('data-topic') !== slug;
+            });
+        }
+        stages.forEach(function (s) {
+            s.addEventListener('click', function () { select(s.getAttribute('data-topic')); });
+        });
+        if (stages.length) select(stages[0].getAttribute('data-topic'));
+    })();
+</script>
+
+    </div>
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-item">
+                <div class="footer-text">
+                    &copy; Copyright <span id="footer-year">2020</span> | datumo safety team
+                </div>
+                <div class="footer-text pre-wrap">10F, 8 Teheran-ro 38-gil
+Gangnam-gu, Seoul, Republic of Korea</div>
+            </div>
+            <div class="footer-item">
+                <div class="footer-text">
+                    <a href="">
+                        Repository for this Website
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('footer-year').innerHTML = (new Date()).getFullYear();
+    </script>
+</footer>
+    
+    <script src="/assets/scripts/index.js"></script>
+</body>
+
+</html>
