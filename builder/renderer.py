@@ -33,6 +33,10 @@ def render_research_detail(data, item):
     template = env.get_template('research_detail.html')
     return template.render(data=data, item=item, content=loader.load_research_content(item['path']))
 
+def render_topics(data):
+    template = env.get_template('topics.html')
+    return template.render(data=data)
+
 def render_news(data):
     template = env.get_template('news.html')
     return template.render(data=data)

@@ -11,6 +11,8 @@ NEWS_IMAGE_URL_BASE = '/assets/news'
 # reviewed like any other file.
 RESEARCH_PATH = os.path.join(BASE_PATH, 'research')
 RESEARCH_URL_BASE = '/research'
+# One file per stage of the safety pipeline, describing the research behind it.
+TOPICS_PATH = os.path.join(BASE_PATH, 'topics')
 
 def get_secret(name):
     # GitHub Actions exposes action inputs as INPUT_*, so check that first and
