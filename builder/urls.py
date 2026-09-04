@@ -24,6 +24,7 @@ def get_pages(data):
         Page('index.html', render_index),
         Page('members.html', render_members),
         Page('research.html', render_research),
+        Page('topics.html', render_topics),
         Page('news.html', render_news),
         Page('contact.html', render_contact),
     ] + [
