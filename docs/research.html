@@ -80,7 +80,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/finred">FinRED: An Expert-Guided Benchmark Generation and Evaluation Framework for Financial LLM Red-Teaming</a>
+                                FinRED: An Expert-Guided Benchmark Generation and Evaluation Framework for Financial LLM Red-Teaming
                                 
                             </h4>
                         </div>
@@ -171,7 +171,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/starteaming">STAR-Teaming: A Strategy-Response Multiplex Network Approach to Automated LLM Red Teaming</a>
+                                STAR-Teaming: A Strategy-Response Multiplex Network Approach to Automated LLM Red Teaming
                                 
                             </h4>
                         </div>
@@ -187,7 +187,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/datumo_guard">Reliable to Expressive: A Curriculum for Rubric-Following Safety Judges</a>
+                                Reliable to Expressive: A Curriculum for Rubric-Following Safety Judges
                                 
                             </h4>
                         </div>
@@ -202,7 +202,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/cage_analysis">Culturally-Adapted Red-Teaming Across East and Southeast Asian Contexts: A Methodological and Comparative Analysis</a>
+                                Culturally-Adapted Red-Teaming Across East and Southeast Asian Contexts: A Methodological and Comparative Analysis
                                 
                             </h4>
                         </div>
@@ -217,7 +217,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/dpo_alignment">Korean Culture into LLM Alignment: Toward Cultural Coherence</a>
+                                Korean Culture into LLM Alignment: Toward Cultural Coherence
                                 
                             </h4>
                         </div>
@@ -262,7 +262,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/cage">CAGE: A Framework for Culturally Adaptive Red-Teaming Benchmark Generation</a>
+                                CAGE: A Framework for Culturally Adaptive Red-Teaming Benchmark Generation
                                 
                             </h4>
                         </div>
@@ -280,7 +280,7 @@
                         <div class="title-row">
                             <h4 class="title">
                                 
-                                <a href="/research/kornat">KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge</a>
+                                KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge
                                 
                             </h4>
                         </div>
@@ -359,7 +359,8 @@
                     <div class="research-item row-item" :class="{ hidden: isHidden(item.tags) }">
                         <div class="title-row">
                             <h4 class="title">
-                                <a v-if="item.has_page" :href="'/research/' + item.path">[[ item.title ]]</a>
+                                <a v-if="linkToPage && item.has_page" :href="'/research/' + item.path">[[ item.title ]]</a>
+                                <a v-else-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">[[ item.title ]]</a>
                                 <template v-else>[[ item.title ]]</template>
                             </h4>
                             <template v-for="tagId in item.tags">
@@ -388,6 +389,7 @@
             research: [{"title": "Publications", "rows": [{"title": "FinRED: An Expert-Guided Benchmark Generation and Evaluation Framework for Financial LLM Red-Teaming", "authors": "", "booktitle": "IEEE ICDM 2026", "links": "[PDF](https://arxiv.org/pdf/2606.19887)\n[Code](https://github.com/selectstar-ai/FinRED-paper) \u23ce [Huggingface](https://huggingface.co/datasets/datumo/FinRED)", "tags": ["safety", "benchmark", "financial"], "path": "finred", "has_page": true}, {"title": "Guard Models Are Overconfident Where Base Models Are Uncertain", "authors": "", "booktitle": "EMNLP 2026", "links": "", "tags": ["safety", "guard"], "path": "guard_overconfidence", "has_page": false}, {"title": "When Accuracy Aligns and Fails: Diagnosing Human\u2013LLM Response Alignment at Population Scale", "authors": "", "booktitle": "EMNLP 2026", "links": "", "tags": ["safety", "benchmark", "bias"], "path": "population_alignment", "has_page": false}, {"title": "Regression-Aware Statistically Gated Policy Updating for Korean Financial LLM Input Guardrails", "authors": "", "booktitle": "EMNLP WS 2026", "links": "", "tags": ["safety", "guard", "financial"], "path": "fin_guardrail", "has_page": false}, {"title": "Hidden Below the Landing Page: Tracking Linked Pages and Relation-Centered DOM Summaries for Financial Phishing Detection", "authors": "", "booktitle": "EMNLP WS 2026", "links": "", "tags": ["safety", "financial"], "path": "phishing_dom", "has_page": false}, {"title": "LatAm-RT: Toward Culturally Adaptive Red Teaming for AI Safety in Latin America", "authors": "", "booktitle": "EMNLP WS 2026", "links": "", "tags": ["safety", "attacker", "culture"], "path": "latam_rt", "has_page": false}, {"title": "STAR-Teaming: A Strategy-Response Multiplex Network Approach to Automated LLM Red Teaming", "authors": "", "booktitle": "ACL 2026", "links": "[PDF](https://aclanthology.org/2026.findings-acl.1470.pdf)\n[Code](https://github.com/selectstar-ai/STAR-Teaming-paper)", "tags": ["safety", "attacker"], "path": "starteaming", "has_page": true}, {"title": "Reliable to Expressive: A Curriculum for Rubric-Following Safety Judges", "authors": "", "booktitle": "ICML WS 2026", "links": "[PDF](https://openreview.net/pdf?id=aGBWGPjizg)", "tags": ["safety", "judge"], "path": "datumo_guard", "has_page": true}, {"title": "Culturally-Adapted Red-Teaming Across East and Southeast Asian Contexts: A Methodological and Comparative Analysis", "authors": "", "booktitle": "ICML WS 2026", "links": "[PDF](https://openreview.net/pdf?id=aGBWGPjizg)", "tags": ["safety", "attacker", "culture"], "path": "cage_analysis", "has_page": true}, {"title": "Korean Culture into LLM Alignment: Toward Cultural Coherence", "authors": "", "booktitle": "ICML WS 2026", "links": "[PDF](https://openreview.net/pdf?id=aGBWGPjizg)", "tags": ["safety", "culture"], "path": "dpo_alignment", "has_page": true}, {"title": "EPLKG: Efficient Prompt Learning with Knowledge Graph", "authors": "", "booktitle": "PAKDD 2026", "links": "", "tags": ["etc"], "path": "eplkg", "has_page": false}, {"title": "MHTS: Multi-Hop Tree Structure Framework for Generating Difficulty-Controllable QA Datasets for RAG Evaluation", "authors": "", "booktitle": "LREC 2026", "links": "[PDF](https://arxiv.org/abs/2504.08756)", "tags": ["benchmark"], "path": "mhts", "has_page": false}, {"title": "CAGE: A Framework for Culturally Adaptive Red-Teaming Benchmark Generation", "authors": "", "booktitle": "ICLR 2026", "links": "[PDF](https://openreview.net/pdf?id=gCm55KYiqz)\n[Poster](https://iclr.cc/.../10008170.png)\n[Code](https://github.com/selectstar-ai/CAGE-paper)\n[Huggingface](https://huggingface.co/datasets/datumo/KorSET)", "tags": ["safety", "benchmark", "culture"], "path": "cage", "has_page": true}, {"title": "KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge", "authors": "", "booktitle": "ACL 2024", "links": "[PDF](https://aclanthology.org/2024.findings-acl.666/)\n[Huggingface](https://huggingface.co/datasets/datumo/KorNAT)", "tags": ["safety", "benchmark", "bias"], "path": "kornat", "has_page": true}, {"title": "Analyzing Norm Violations in Live-Stream Chat", "authors": "", "booktitle": "EMNLP 2023", "links": "", "tags": ["safety", "benchmark"], "path": "norm_violations", "has_page": false}]}],
             tags: {"safety": {"title": "AI Safety", "tag": "Safety", "color": "#F49390"}, "bias": {"title": "Bias", "tag": "Bias", "color": "#F45866"}, "benchmark": {"title": "Benchmark", "tag": "Benchmark", "color": "#75B9BE"}, "attacker": {"title": "Attacker", "tag": "Attacker", "color": "#B4533C"}, "judge": {"title": "Judge", "tag": "Judge", "color": "#A8455C"}, "guard": {"title": "Guardrail", "tag": "Guardrail", "color": "#8E4A5F"}, "financial": {"title": "Financial", "tag": "Financial", "color": "#6B5B95"}, "medical": {"title": "Medical", "tag": "Medical", "color": "#4F5D8C"}, "legal": {"title": "Legal", "tag": "Legal", "color": "#3F6FA3"}, "agent": {"title": "Agent", "tag": "Agent", "color": "#2F7A85"}, "culture": {"title": "Curturally Adapted", "tag": "Curturally Adapted", "color": "#417F6B"}},
             activeTagIds: [],
+            linkToPage: false,
         },
         methods: {
             isActive: function(tagId) {
