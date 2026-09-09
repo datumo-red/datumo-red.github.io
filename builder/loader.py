@@ -122,6 +122,28 @@ def get_slug(value):
     slug = (value or '').strip().strip('/')
     return slug if re.match(r'^[A-Za-z0-9_-]+$', slug) else ''
 
+def normalise_slug(slug):
+    """Fold the differences that are easy to get wrong across two places."""
+    return slug.lower().replace('-', '_')
+
+def find_research_slug(slug):
+    """Match a sheet slug to a write-up, ignoring case and - versus _.
+
+    The slug is typed in the spreadsheet and again as a file name, so the two
+    drift apart over a hyphen. Returns the file's own spelling, which is what
+    the page is then published under.
+    """
+    if not slug or not os.path.isdir(config.RESEARCH_PATH):
+        return ''
+    wanted = normalise_slug(slug)
+    for name in sorted(os.listdir(config.RESEARCH_PATH)):
+        if not name.endswith('.md'):
+            continue
+        found = name[:-len('.md')]
+        if normalise_slug(found) == wanted:
+            return found
+    return ''
+
 def get_research_file(slug):
     return os.path.join(config.RESEARCH_PATH, '%s.md' % slug)
 
@@ -214,9 +236,12 @@ def conv_research(table):
         item = row_to_dict(row, ['title', 'authors', 'booktitle', 'links', 'tags', 'path'], 1)
         if 'tags' in item:
             item['tags'] = [tag.strip() for tag in (item['tags'] or '').split(',') if tag]
-        item['path'] = get_slug(item['path'])
-        # Only papers with a write-up on disk get a page of their own.
-        item['has_page'] = bool(item['path']) and os.path.exists(get_research_file(item['path']))
+        item['url'] = get_first_link(item['links'])
+        # Only papers with a write-up on disk get a page of their own, and the
+        # page is published under the file's spelling so the two always agree.
+        found = find_research_slug(get_slug(item['path']))
+        item['path'] = found or get_slug(item['path'])
+        item['has_page'] = bool(found)
         group['rows'].append(item)
     return groups
 
