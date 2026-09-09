@@ -65,7 +65,7 @@
     <div class="container">
         <div class="v-padded">
             <h3 class="row-title">How the work fits together</h3>
-            <div class="flow" id="flow">
+            <div class="flow" id="flow" style="--stages:4">
                 
                 <button
                     class="stage active"
@@ -78,7 +78,6 @@
                     <span class="stage-name">Benchmark</span>
                     <span class="stage-sum">무엇을 위험으로 볼지 정의하고, 문화와 도메인에 맞는 시험 문제를 만든다</span>
                 </button>
-                <span class="flow-arrow" aria-hidden="true">&rarr;</span>
                 
                 <button
                     class="stage"
@@ -91,7 +90,6 @@
                     <span class="stage-name">Attacker</span>
                     <span class="stage-sum">공격 전략을 탐색하고, 대상 시스템에 맞는 프롬프트를 자동으로 만든다</span>
                 </button>
-                <span class="flow-arrow" aria-hidden="true">&rarr;</span>
                 
                 <button
                     class="stage"
@@ -104,7 +102,6 @@
                     <span class="stage-name">Judge</span>
                     <span class="stage-sum">무엇이 얼마나 잘못됐는지, 어느 구성요소가 실패했는지 채점한다</span>
                 </button>
-                <span class="flow-arrow" aria-hidden="true">&rarr;</span>
                 
                 <button
                     class="stage"
@@ -118,11 +115,33 @@
                     <span class="stage-sum">입력과 출력 사이에 서서 위험한 요청과 응답을 걸러낸다</span>
                 </button>
                 
+            </div>
+            
+            <div class="rails" style="height:84px">
+                
+                <span
+                    class="rail rail-lead"
+                    style="left:37.5000%; right:12.5000%; height:30px"
+                ></span>
+                <span
+                    class="rail-label rail-label-lead"
+                    style="left:62.5000%; top:21px"
+                >막힌 틈이 다음 공격의 출발점</span>
+                
+                <span
+                    class="rail"
+                    style="left:12.5000%; right:37.5000%; height:60px"
+                ></span>
+                <span
+                    class="rail-label"
+                    style="left:37.5000%; top:51px"
+                >확인된 실패는 영구 회귀 문제로</span>
                 
             </div>
-            <p class="flow-loop">
-                확인된 실패는 벤치마크로 되돌아가 다음 회차의 시험 문제가 된다.
+            <p class="rails-text">
+                막힌 틈이 다음 공격의 출발점 · 확인된 실패는 영구 회귀 문제로
             </p>
+            
             
             <article class="topic-panel" id="topic-benchmark" data-topic="benchmark">
                 <div class="topic-body">
