@@ -129,6 +129,10 @@ def load_research_content(slug):
     with open(get_research_file(slug), 'r') as f:
         return f.read()
 
+def get_first_link(markdown_links):
+    """The first URL in a Links cell, used when a title should open the paper."""
+    match = re.search(r'\]\(\s*([^)\s]+)', markdown_links or '')
+    return match.group(1) if match else ''
 def split_front_matter(text):
     """Peel `Key: value` lines off the top of a file, up to the first blank one.
 
