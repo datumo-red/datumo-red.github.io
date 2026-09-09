@@ -1,6 +1,8 @@
 Order: 3
 Title: Judge
 Summary: 무엇이 얼마나 잘못됐는지, 어느 구성요소가 실패했는지 채점한다
+Returns: benchmark
+Returns-label: 확인된 실패는 영구 회귀 문제로
 
 ## 무엇을 하는가
 

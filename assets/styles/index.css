@@ -8,6 +8,7 @@
     --white-color: #ffffff;
     --light-grey-color: #f8f8f8;
     --grey-color: #444444;
+    --line-soft: #cfcbc4;
     --header-text-color: rgba(255, 255, 255, 0.7);
     --header-text-highlight-color: #ffffff;
     --header-border-color: rgba(255, 255, 255, 0.15);
@@ -247,21 +248,29 @@ body {
 }
 
 .flow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
+    /* Equal columns, so a stage's centre is a known share of the row and the
+       return rails below can be placed without measuring anything. */
+    display: grid;
+    grid-template-columns: repeat(var(--stages), 1fr);
     gap: 0.6rem;
 }
 
-.flow-arrow {
-    align-self: center;
+/* the arrow between one stage and the next */
+.stage + .stage {
+    position: relative;
+}
+
+.stage + .stage::before {
+    content: "\2192";
+    position: absolute;
+    left: -0.6rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
     color: var(--grey-color);
     font-size: 1.1rem;
-    flex: none;
 }
 
 .stage {
-    flex: 1 1 12rem;
     display: block;
     text-align: left;
     appearance: none;
@@ -310,22 +319,60 @@ body {
     color: var(--grey-color);
 }
 
-.flow-loop {
-    margin: 1.1rem 0 0;
-    padding-left: 1.4rem;
+/* return paths, drawn under the row so the loop reads as part of the flow */
+.rails {
     position: relative;
-    font-size: 0.85rem;
-    color: var(--grey-color);
+    margin-top: 0.1rem;
 }
 
-/* the return arrow, drawn rather than written so it reads as part of the flow */
-.flow-loop::before {
-    content: "\21BA";
+.rail {
     position: absolute;
-    left: 0;
-    top: -0.1rem;
-    font-size: 1.1rem;
+    top: 0;
+    border: 1px solid var(--line-soft);
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+}
+
+/* the arrow head, sitting on the end the path returns to */
+.rail::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: -1px;
+    border: 4px solid transparent;
+    border-bottom-color: var(--line-soft);
+}
+
+.rail-lead {
+    border-color: var(--link-color);
+    border-top: 0;
+}
+
+.rail-lead::after {
+    border-bottom-color: var(--link-color);
+}
+
+.rail-label {
+    position: absolute;
+    transform: translateX(-50%);
+    padding: 0 0.5rem;
+    background-color: var(--white-color);
+    font-size: 0.75rem;
+    color: var(--grey-color);
+    white-space: nowrap;
+}
+
+.rail-label-lead {
     color: var(--link-color);
+    font-weight: bold;
+}
+
+/* the same information as words, for widths where the rails are hidden */
+.rails-text {
+    display: none;
+    margin: 1rem 0 0;
+    font-size: 0.85rem;
+    color: var(--grey-color);
 }
 
 .topic-body {
@@ -355,12 +402,23 @@ body {
 }
 
 @media screen and (max-width: 48rem) {
-    .flow-arrow {
+    .flow {
+        grid-template-columns: 1fr;
+    }
+
+    .stage + .stage::before {
+        content: "\2193";
+        left: 50%;
+        top: -0.3rem;
+    }
+
+    /* stacked stages leave nothing for the rails to span */
+    .rails {
         display: none;
     }
 
-    .stage {
-        flex: 1 1 100%;
+    .rails-text {
+        display: block;
     }
 }
 
