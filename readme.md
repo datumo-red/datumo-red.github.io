@@ -56,7 +56,7 @@ Put the slug in column G of the `Research` tab and the write-up in `research/<sl
 | --- | --- | --- | --- | --- | --- | --- |
 | Section | Title | Authors | Venue | Links | Tags | Slug |
 
-The file holds the body only. The title, authors, venue and link buttons come from the sheet row, so they are never typed twice. When `research/<slug>.md` exists, the paper is published at `/research/<slug>` and its title becomes a link on the research and landing pages; when it does not, the entry renders exactly as before. Slugs are restricted to letters, digits, `-` and `_`.
+The file holds the body only. The title, authors, venue and link buttons come from the sheet row, so they are never typed twice. When `research/<slug>.md` exists, the paper is published at `/research/<slug>` and its title becomes a link on the research and landing pages; when it does not, the entry renders exactly as before. Slugs are restricted to letters, digits, `-` and `_`, and are matched loosely: case, and `-` against `_`, do not have to agree between the sheet and the file name. The page is published under the file's spelling.
 
 A paper's title on the research and landing pages links to the first URL in its `Links` column. Once the write-ups are worth reading, set `research_link_target` to `page` on the `Website` tab and titles point at `/research/<slug>` instead, falling back to the paper for any row without a write-up.
 
