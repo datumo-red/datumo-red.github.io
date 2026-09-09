@@ -71,7 +71,7 @@ Figures go under *assets*, which is copied into the build, so reference them fro
 
 ### Research topics
 
-*[topics](topics)* holds one Markdown file per stage of the safety pipeline, published together at `/topics.html` as a row of stages you click through. Each file opens with its own header lines:
+*[topics](topics)* holds one Markdown file per stage of the safety pipeline. They appear on the landing page as a row of stages you click through. Each file opens with its own header lines:
 
 ```markdown
 Order: 2
@@ -82,7 +82,7 @@ Summary: 공격 전략을 탐색하고, 대상 시스템에 맞는 프롬프트�
 ...
 ```
 
-`Order` puts the stage in the flow, `Title` names the button and `Summary` is the line under it; everything after the blank line is the body shown when that stage is selected. Adding a file adds a stage, and the `Topics` menu item appears only when the folder has at least one.
+`Order` puts the stage in the flow, `Title` names the button and `Summary` is the line under it; everything after the blank line is the body shown when that stage is selected. Adding a file adds a stage, and the whole section disappears when the folder is empty.
 
 Every panel is in the page already, so the writing is readable with JavaScript switched off — the script only narrows it to one stage at a time.
 
