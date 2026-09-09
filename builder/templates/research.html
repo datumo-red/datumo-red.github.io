@@ -21,8 +21,10 @@
                     <div class="research-item row-item">
                         <div class="title-row">
                             <h4 class="title">
-                                {% if item.has_page %}
+                                {% if link_to_page and item.has_page %}
                                 <a href="/research/{{ item.path }}">{{ item.title }}</a>
+                                {% elif item.url %}
+                                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
                                 {% else %}
                                 {{ item.title }}
                                 {% endif %}
@@ -82,7 +84,8 @@
                     <div class="research-item row-item" :class="{ hidden: isHidden(item.tags) }">
                         <div class="title-row">
                             <h4 class="title">
-                                <a v-if="item.has_page" :href="'/research/' + item.path">[[ item.title ]]</a>
+                                <a v-if="linkToPage && item.has_page" :href="'/research/' + item.path">[[ item.title ]]</a>
+                                <a v-else-if="item.url" :href="item.url" target="_blank" rel="noopener noreferrer">[[ item.title ]]</a>
                                 <template v-else>[[ item.title ]]</template>
                             </h4>
                             <template v-for="tagId in item.tags">
@@ -111,6 +114,7 @@
             research: {{ data.research | jsonify | safe }},
             tags: {{ data.tags | jsonify | safe }},
             activeTagIds: [],
+            linkToPage: {{ link_to_page | jsonify | safe }},
         },
         methods: {
             isActive: function(tagId) {

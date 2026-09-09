@@ -40,8 +40,10 @@
                 <div class="research-item row-item">
                     <div class="title-row">
                         <h4 class="title">
-                            {% if item.has_page %}
+                            {% if link_to_page and item.has_page %}
                             <a href="/research/{{ item.path }}">{{ item.title }}</a>
+                            {% elif item.url %}
+                            <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
                             {% else %}
                             {{ item.title }}
                             {% endif %}

@@ -17,13 +17,23 @@ def init_env():
     env.filters['markdown'] = lambda text: Markup(md.convert(text))
     env.filters['jsonify'] = lambda text: json.dumps(text)
 
+def links_to_page(data):
+    """Whether a paper title opens its write-up here or the paper itself.
+
+    Write-ups are still being written, so titles go to the paper by default.
+    Setting research_link_target to `page` on the Website tab switches them
+    over once the write-ups are worth reading.
+    """
+    return data['website'].get('research_link_target', '').strip() == 'page'
+
 def render_index(data):
     template = env.get_template('landing.html')
     max_size = 7
     landing_research = data['research'][0]['rows'][:]
     if len(landing_research) > max_size:
         landing_research = landing_research[:max_size]
-    return template.render(data=data, landing_research=landing_research)
+    return template.render(data=data, landing_research=landing_research,
+                           link_to_page=links_to_page(data))
 
 def render_members(data):
     template = env.get_template('members.html')
@@ -39,7 +49,7 @@ def render_news(data):
 
 def render_research(data):
     template = env.get_template('research.html')
-    return template.render(data=data)
+    return template.render(data=data, link_to_page=links_to_page(data))
 
 def render_links(data):
     template = env.get_template('links.html')

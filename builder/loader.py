@@ -129,6 +129,11 @@ def load_research_content(slug):
     with open(get_research_file(slug), 'r') as f:
         return f.read()
 
+def get_first_link(markdown_links):
+    """The first URL in a Links cell, used when a title should open the paper."""
+    match = re.search(r'\]\(\s*([^)\s]+)', markdown_links or '')
+    return match.group(1) if match else ''
+
 def conv_research(table):
     groups, index = [], {}
     for row in table:
@@ -137,6 +142,7 @@ def conv_research(table):
         if 'tags' in item:
             item['tags'] = [tag.strip() for tag in (item['tags'] or '').split(',') if tag]
         item['path'] = get_research_slug(item['path'])
+        item['url'] = get_first_link(item['links'])
         # Only papers with a write-up on disk get a page of their own.
         item['has_page'] = bool(item['path']) and os.path.exists(get_research_file(item['path']))
         group['rows'].append(item)
