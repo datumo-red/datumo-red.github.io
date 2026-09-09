@@ -246,6 +246,124 @@ body {
     opacity: 1;
 }
 
+.flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.6rem;
+}
+
+.flow-arrow {
+    align-self: center;
+    color: var(--grey-color);
+    font-size: 1.1rem;
+    flex: none;
+}
+
+.stage {
+    flex: 1 1 12rem;
+    display: block;
+    text-align: left;
+    appearance: none;
+    font-family: inherit;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--light-grey-color);
+    border-left: 3px solid var(--light-grey-color);
+    border-radius: 6px;
+    background-color: var(--white-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.stage:hover {
+    border-color: var(--link-color);
+}
+
+.stage.active {
+    border-color: var(--light-grey-color);
+    border-left-color: var(--link-color);
+    background-color: var(--light-grey-color);
+}
+
+.stage-num {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: var(--grey-color);
+}
+
+.stage-name {
+    display: block;
+    padding-top: 0.35rem;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.stage-sum {
+    display: block;
+    padding-top: 0.4rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--grey-color);
+}
+
+.flow-loop {
+    margin: 1.1rem 0 0;
+    padding-left: 1.4rem;
+    position: relative;
+    font-size: 0.85rem;
+    color: var(--grey-color);
+}
+
+/* the return arrow, drawn rather than written so it reads as part of the flow */
+.flow-loop::before {
+    content: "\21BA";
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    font-size: 1.1rem;
+    color: var(--link-color);
+}
+
+.topic-body {
+    max-width: 48rem;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.topic-body h2 {
+    margin: 2rem 0 0.6rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.topic-body h2:first-child {
+    margin-top: 0;
+}
+
+.topic-body p {
+    margin: 0 0 0.9rem;
+}
+
+.topic-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width: 48rem) {
+    .flow-arrow {
+        display: none;
+    }
+
+    .stage {
+        flex: 1 1 100%;
+    }
+}
+
 .empty-result {
     padding: 1rem 0;
     color: var(--grey-color);

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="topics home">
+    {% with screen_background=data.website.topics_background,screen_title='Research Topics' %}
+    {% include 'screen.html' %}
+    {% endwith %}
+    <div class="row">
+        <div class="container">
+            <div class="v-padded">
+                <div class="flow" id="flow">
+                    {% for topic in data.topics %}
+                    <button
+                        class="stage{% if loop.first %} active{% endif %}"
+                        type="button"
+                        data-topic="{{ topic.slug }}"
+                        aria-controls="topic-{{ topic.slug }}"
+                        aria-expanded="{{ 'true' if loop.first else 'false' }}"
+                    >
+                        <span class="stage-num">{{ '%02d' % loop.index }}</span>
+                        <span class="stage-name">{{ topic.title }}</span>
+                        <span class="stage-sum">{{ topic.summary }}</span>
+                    </button>
+                    {% if not loop.last %}<span class="flow-arrow" aria-hidden="true">&rarr;</span>{% endif %}
+                    {% endfor %}
+                </div>
+                <p class="flow-loop">
+                    확인된 실패는 벤치마크로 되돌아가 다음 회차의 시험 문제가 된다.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="v-padded">
+                {% for topic in data.topics %}
+                <article class="topic-panel" id="topic-{{ topic.slug }}" data-topic="{{ topic.slug }}">
+                    <h3 class="row-title">{{ topic.title }}</h3>
+                    <div class="topic-body">
+                        {{ topic.content | markdown }}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Every panel is in the page already, so the content is readable with no
+    // JavaScript at all; this only narrows it down to one at a time.
+    (function () {
+        var flow = document.getElementById('flow');
+        if (!flow) return;
+        var stages = [].slice.call(flow.querySelectorAll('.stage'));
+        var panels = [].slice.call(document.querySelectorAll('.topic-panel'));
+        function select(slug) {
+            stages.forEach(function (s) {
+                var on = s.getAttribute('data-topic') === slug;
+                s.classList.toggle('active', on);
+                s.setAttribute('aria-expanded', String(on));
+            });
+            panels.forEach(function (p) {
+                p.hidden = p.getAttribute('data-topic') !== slug;
+            });
+        }
+        stages.forEach(function (s) {
+            s.addEventListener('click', function () { select(s.getAttribute('data-topic')); });
+        });
+        if (stages.length) select(stages[0].getAttribute('data-topic'));
+    })();
+</script>
+{% endblock %}
