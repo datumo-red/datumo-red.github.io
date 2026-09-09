@@ -172,9 +172,40 @@ def load_topics():
             'summary': meta.get('summary', ''),
             'order': order,
             'content': content,
+            # A stage may feed an earlier one; the diagram draws that as a
+            # return path rather than leaving the loop to a caption.
+            'returns': get_slug(meta.get('returns', '')),
+            'returns_label': meta.get('returns-label', ''),
         })
     topics.sort(key=lambda t: (t['order'], t['slug']))
     return topics
+
+def get_return_rails(topics):
+    """Turn each `Returns:` into the two positions the diagram draws between.
+
+    Stages sit in equal columns, so a stage's centre is a fixed share of the
+    row; the rails only need those two percentages and a depth to nest at.
+    """
+    at = {t['slug']: i for i, t in enumerate(topics)}
+    width = 100.0 / len(topics) if topics else 0
+    centre = lambda i: width * (i + 0.5)
+    rails = []
+    for i, topic in enumerate(topics):
+        target = at.get(topic['returns'])
+        if target is None or target >= i:
+            continue
+        rails.append({
+            'from': centre(i),
+            'to': centre(target),
+            'label': topic['returns_label'],
+        })
+    # The loop closing from the furthest stage is the tight one that drives the
+    # next pass, so it is drawn nearest the row and carries the accent.
+    rails.sort(key=lambda rail: rail['from'], reverse=True)
+    for depth, rail in enumerate(rails, 1):
+        rail['depth'] = depth
+        rail['lead'] = depth == 1
+    return rails
 
 def conv_research(table):
     groups, index = [], {}
@@ -326,6 +357,7 @@ def conv_redirects(table):
     return redirects
 
 def load_data():
+    topics = load_topics()
     data_url = config.DATA_URL
     doc_id = get_doc_id(data_url)
     tables = load_ranges(doc_id, RANGES)
@@ -340,6 +372,7 @@ def load_data():
         'redirects': conv_redirects(tables[7]),
         'personal': load_personal(tables[8]),
         'news': load_news(doc_id),
-        'topics': load_topics(),
+        'topics': topics,
+        'topic_rails': get_return_rails(topics),
     }
 

@@ -3,7 +3,7 @@
     <div class="container">
         <div class="v-padded">
             <h3 class="row-title">How the work fits together</h3>
-            <div class="flow" id="flow">
+            <div class="flow" id="flow" style="--stages:{{ data.topics|length }}">
                 {% for topic in data.topics %}
                 <button
                     class="stage{% if loop.first %} active{% endif %}"
@@ -16,12 +16,25 @@
                     <span class="stage-name">{{ topic.title }}</span>
                     <span class="stage-sum">{{ topic.summary }}</span>
                 </button>
-                {% if not loop.last %}<span class="flow-arrow" aria-hidden="true">&rarr;</span>{% endif %}
                 {% endfor %}
             </div>
-            <p class="flow-loop">
-                확인된 실패는 벤치마크로 되돌아가 다음 회차의 시험 문제가 된다.
+            {% if data.topic_rails %}
+            <div class="rails" style="height:{{ 24 + data.topic_rails|length * 30 }}px">
+                {% for rail in data.topic_rails %}
+                <span
+                    class="rail{% if rail.lead %} rail-lead{% endif %}"
+                    style="left:{{ '%.4f' % rail.to }}%; right:{{ '%.4f' % (100 - rail.from) }}%; height:{{ rail.depth * 30 }}px"
+                ></span>
+                <span
+                    class="rail-label{% if rail.lead %} rail-label-lead{% endif %}"
+                    style="left:{{ '%.4f' % ((rail.to + rail.from) / 2) }}%; top:{{ rail.depth * 30 - 9 }}px"
+                >{{ rail.label }}</span>
+                {% endfor %}
+            </div>
+            <p class="rails-text">
+                {% for rail in data.topic_rails %}{{ rail.label }}{% if not loop.last %} · {% endif %}{% endfor %}
             </p>
+            {% endif %}
             {% for topic in data.topics %}
             <article class="topic-panel" id="topic-{{ topic.slug }}" data-topic="{{ topic.slug }}">
                 <div class="topic-body">

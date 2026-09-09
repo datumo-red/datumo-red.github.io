@@ -86,6 +86,15 @@ Summary: 공격 전략을 탐색하고, 대상 시스템에 맞는 프롬프트�
 
 `Order` puts the stage in the flow, `Title` names the button and `Summary` is the line under it; everything after the blank line is the body shown when that stage is selected. Adding a file adds a stage, and the whole section disappears when the folder is empty.
 
+A stage that feeds an earlier one says so, and the diagram draws it as a return path under the row rather than leaving the loop to a caption:
+
+```markdown
+Returns: attacker
+Returns-label: 막힌 틈이 다음 공격의 출발점
+```
+
+Paths nest by how far back they reach, and the one closing from the furthest stage is drawn nearest the row and accented, since that is the loop driving the next pass. Where the stages stack on a narrow screen the paths give way to the same wording as a line of text.
+
 Every panel is in the page already, so the writing is readable with JavaScript switched off — the script only narrows it to one stage at a time.
 
 ### News
