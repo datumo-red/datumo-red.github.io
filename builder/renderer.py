@@ -28,12 +28,7 @@ def links_to_page(data):
 
 def render_index(data):
     template = env.get_template('landing.html')
-    max_size = 7
-    landing_research = data['research'][0]['rows'][:]
-    if len(landing_research) > max_size:
-        landing_research = landing_research[:max_size]
-    return template.render(data=data, landing_research=landing_research,
-                           link_to_page=links_to_page(data))
+    return template.render(data=data)
 
 def render_members(data):
     template = env.get_template('members.html')
