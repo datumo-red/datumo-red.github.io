@@ -1,6 +1,8 @@
 Order: 4
 Title: Guardrail
 Summary: 입력과 출력 사이에 서서 위험한 요청과 응답을 걸러낸다
+Returns: attacker
+Returns-label: 막힌 틈이 다음 공격의 출발점
 
 ## 무엇을 하는가
 
