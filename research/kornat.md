@@ -1,6 +1,6 @@
 ## Abstract
 
-LLM이 특정 국가에 효과적으로 배포되려면 그 나라의 문화와 기본 지식을 이해하고 있어야 한다. 이 연구는 이를 측정하기 위해 **국가 정렬(National Alignment)** 개념을 제안한다. 국가 정렬은 사회 가치 정렬(social value alignment)과 공통 지식 정렬(common knowledge alignment) 두 축으로 구성된다 — 전자는 모델이 해당 국가의 사회적 가치를 얼마나 잘 이해하는지, 후자는 그 국가와 관련된 기본 지식을 얼마나 잘 포착하는지를 평가한다.
+LLM이 특정 국가에 효과적으로 배포되려면 그 나라의 문화와 기본 지식을 이해하고 있어야 한다. 이 연구는 이를 측정하기 위해 **국가 정렬(National Alignment)** 개념을 제안한다. 국가 정렬은 사회 가치 정렬(social value alignment)과 공통 지식 정렬(common knowledge alignment) 두 축으로 구성된다 - 전자는 모델이 해당 국가의 사회적 가치를 얼마나 잘 이해하는지, 후자는 그 국가와 관련된 기본 지식을 얼마나 잘 포착하는지를 평가한다.
 
 이 프레임워크로 대한민국과의 국가 정렬을 측정하는 첫 벤치마크 **KorNAT**을 만들었다. 사회 가치 데이터셋은 6,174명의 한국 국민을 대상으로 한 대규모 설문에서 정답 레이블을 얻었고 공통 지식 데이터셋은 한국 교과서와 검정고시(GED) 참고자료를 바탕으로 구성했다. 사회 가치 4,000문항, 공통 지식 6,000문항의 객관식으로 이뤄져 있으며, 통계적 표본 설계와 여러 차례의 사람 검토를 거쳐 만들어졌다. 7개 LLM으로 실험한 결과 기준 점수를 넘긴 모델은 소수에 그쳐, 개선의 여지가 있음을 보여준다. KorNAT은 데이터셋 품질 평가를 담당하는 TTA(한국정보통신기술협회, Telecommunications Technology Association of Korea)의 심사를 통과해 정부 승인을 받았다.
 
@@ -66,6 +66,7 @@ PaLM-2가 SVA와 A-SVA에서 가장 높은 점수를 냈다. 다만 SVA의 이�
 @inproceedings{lee2024kornat,
   title     = {KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge},
   author    = {Lee, Jiyoung and Kim, Minwoo and Kim, Seungho and Kim, Junghwan and Won, Seunghyun and Lee, Hwaran and Choi, Edward},
+  booktitle = {Association for Computational Linguistics(ACL) 2024}
   journal   = {arXiv preprint arXiv:2402.13605},
   year      = {2024}
 }
